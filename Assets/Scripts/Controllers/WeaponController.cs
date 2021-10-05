@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,14 +23,15 @@ public class WeaponController : BaseController, IExecute
         {
             var bullet = Object.Instantiate(Resources.Load<GameObject>("Weapon/Bullet"), _poolPosition, Quaternion.identity).GetComponent<BulletView>();
             _bulletPool.Add(bullet);
-            BackToPool(bullet);
+            BackToPool(bullet.Transform);
         }
 
         for (int i = 0; i < main.Config.LaserMagazineSize; i++)
         {
             var laser = Object.Instantiate(Resources.Load<GameObject>("Weapon/Laser"), _poolPosition, Quaternion.identity).GetComponent<LaserView>();
             _laserPool.Add(laser);
-            BackToPool(_laserPool[i]);
+            BackToPool(_laserPool[i].Transform);
+            _laserPool[i].SetLifetime(_main.Config.LaserLifetime);
         }
     }
 
@@ -41,6 +41,8 @@ public class WeaponController : BaseController, IExecute
         base.Initialize();
 
         GameEvents.Current.OnBulletSpawn += SpawnBullet;
+        GameEvents.Current.OnLaserSpawn += SpawnLaser;
+        GameEvents.Current.OnBulletDestroy += BackToPool;
     }
 
     public void Execute()
@@ -57,7 +59,21 @@ public class WeaponController : BaseController, IExecute
                 _bulletPool[i].Transform.position.y > _main.Config.MaxY ||
                 _bulletPool[i].Transform.position.y < _main.Config.MinY)
                 {
-                    BackToPool(_bulletPool[i]);
+                    BackToPool(_bulletPool[i].Transform);
+                }
+            }
+        }
+
+        //Laser lifetime
+        for (int i = 0; i < _laserPool.Count; i++)
+        {
+            if (_laserPool[i].IsActive == true)
+            {
+                _laserPool[i].ReduceLifetime(Time.deltaTime);
+                if (_laserPool[i].Lifetime <= 0)
+                {
+                    BackToPool(_laserPool[i].Transform);
+                    _laserPool[i].SetLifetime(_laserLifetime);
                 }
             }
         }
@@ -73,18 +89,23 @@ public class WeaponController : BaseController, IExecute
         bullet.gameObject.SetActive(true);
     }
 
-    #region Pool
-    private void BackToPool(BulletView bullet)
+    private void SpawnLaser(Transform point)
     {
-        bullet.Deactivate();
-        bullet.Transform.position = _poolPosition;
-        bullet.gameObject.SetActive(false);
+        var laser = LaserFromPool();
+        laser.transform.position = point.position;
+        laser.transform.rotation = point.rotation;
+        laser.Activate();
+        laser.gameObject.SetActive(true);
+        laser.Fire();
     }
-    private void BackToPool(LaserView laser)
+
+    #region Pool
+    private void BackToPool(Transform transform)
     {
-        laser.Deactivate();
-        laser.Transform.position = _poolPosition;
-        laser.gameObject.SetActive(false);
+        BaseObjectView obj = transform.GetComponent<BaseObjectView>();
+        obj.Deactivate();
+        obj.Transform.position = _poolPosition;
+        obj.gameObject.SetActive(false);
     }
     private BulletView BulletFromPool()
     {
@@ -103,7 +124,7 @@ public class WeaponController : BaseController, IExecute
         {
             bullet = Object.Instantiate(Resources.Load<GameObject>("Weapon/Bullet"),_poolPosition, Quaternion.identity).GetComponent<BulletView>();
             _bulletPool.Add(bullet);
-            BackToPool(bullet);
+            BackToPool(bullet.Transform);
         }
 
         return bullet;
@@ -125,7 +146,7 @@ public class WeaponController : BaseController, IExecute
         {
             laser = Object.Instantiate(Resources.Load<GameObject>("Weapon/Laser"), _poolPosition, Quaternion.identity).GetComponent<LaserView>();
             _laserPool.Add(laser);
-            BackToPool(laser);
+            BackToPool(laser.Transform);
         }
 
         return laser;

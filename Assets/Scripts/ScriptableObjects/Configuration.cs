@@ -39,4 +39,9 @@ public class Configuration : ScriptableObject
     public float UFOSpeed;
     public float AsteroidSpawnTime;
     public float UFOSpawnTime;
+
+    [Header("Reward")]
+    public int BigAsteroidReward;
+    public int SmallAsteroidReward;
+    public int UFOReward;
 }

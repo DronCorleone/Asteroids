@@ -37,3 +37,6 @@ MonoBehaviour:
   UFOSpeed: 2
   AsteroidSpawnTime: 0.4
   UFOSpawnTime: 10
+  BigAsteroidReward: 10
+  SmallAsteroidReward: 20
+  UFOReward: 30

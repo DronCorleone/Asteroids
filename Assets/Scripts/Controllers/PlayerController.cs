@@ -25,6 +25,7 @@ public class PlayerController : BaseController, IExecute
         base.Initialize();
 
         _player = Object.Instantiate(Resources.Load<GameObject>("Player/Player"), Main.PlayerSpawnPoint.position, Quaternion.identity).GetComponent<PlayerView>();
+        _main.SetPlayer(_player);
 
         InputEvents.Current.OnMoveInput += SetMoveInput;
         InputEvents.Current.OnRotateInput += SetRotateInput;

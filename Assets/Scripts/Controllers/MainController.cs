@@ -8,14 +8,18 @@ public class MainController : MonoBehaviour
 
     private List<BaseController> _controllers = new List<BaseController>();
     private Configuration _config;
+    private PlayerView _player;
 
     private InputController _inputController;
     private PlayerController _playerController;
     private WeaponController _weaponController;
+    private EnemyController _enemyController;
+    private ScoreController _scoreController;
 
     public Configuration Config => _config;
     public Transform PlayerSpawnPoint => _playerSpawnPoint;
     public Transform[] EnemySpawnPoints => _enemySpawnPoints;
+    public PlayerView Player => _player;
 
 
     private void Awake()
@@ -28,6 +32,8 @@ public class MainController : MonoBehaviour
         _inputController = new InputController(this);
         _playerController = new PlayerController(this);
         _weaponController = new WeaponController(this);
+        _enemyController = new EnemyController(this);
+        _scoreController = new ScoreController(this);
     }
 
     private void Start()
@@ -52,6 +58,10 @@ public class MainController : MonoBehaviour
         }
     }
 
+    public void SetPlayer(PlayerView player)
+    {
+        _player = player;
+    }
 
     public void AddController(BaseController controller)
     {

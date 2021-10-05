@@ -41,14 +41,14 @@ public class GameEvents : MonoBehaviour
         OnLaserSpawn?.Invoke(point);
     }
 
-    public event Action<BulletView> OnBulletDestroy;
-    public void BulletDestroy(BulletView bullet)
+    public event Action<Transform> OnBulletDestroy;
+    public void BulletDestroy(Transform bullet)
     {
         OnBulletDestroy?.Invoke(bullet);
     }
 
-    public event Action<LaserView> OnLaserDestroy;
-    public void LaserDestroy(LaserView laser)
+    public event Action<Transform> OnLaserDestroy;
+    public void LaserDestroy(Transform laser)
     {
         OnLaserDestroy?.Invoke(laser);
     }
@@ -59,4 +59,54 @@ public class GameEvents : MonoBehaviour
         OnLaserCooldown?.Invoke(value);
     }
     #endregion
+
+    #region Enemies
+    public event Action<Transform> OnBigAsteroidHit;
+    public void BigAsteroidHit(Transform asteroid)
+    {
+        OnBigAsteroidHit?.Invoke(asteroid);
+    }
+
+    public event Action<Transform> OnSmallAsteroidHit;
+    public void SmallAsteroidHit(Transform asteroid)
+    {
+        OnSmallAsteroidHit?.Invoke(asteroid);
+    }
+
+    public event Action<Transform> OnUFOHit;
+    public void UFOHit(Transform ufo)
+    {
+        OnUFOHit?.Invoke(ufo);
+    }
+
+    public event Action OnBigAsteroidReward;
+    public void BigAsteroidReward()
+    {
+        OnBigAsteroidReward?.Invoke();
+    }
+
+    public event Action OnSmallASteroidReward;
+    public void SmallAsteroidReward()
+    {
+        OnSmallASteroidReward?.Invoke();
+    }
+
+    public event Action OnUFOReward;
+    public void UFOReward()
+    {
+        OnUFOReward?.Invoke();
+    }
+    #endregion
+
+    public event Action<int> OnCurrentScore;
+    public void CurrentScore(int score)
+    {
+        OnCurrentScore?.Invoke(score);
+    }
+
+    public event Action OnGameOver;
+    public void GameOver()
+    {
+        OnGameOver?.Invoke();
+    }
 }
