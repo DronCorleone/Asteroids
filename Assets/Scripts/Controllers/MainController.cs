@@ -11,6 +11,7 @@ public class MainController : MonoBehaviour
 
     private InputController _inputController;
     private PlayerController _playerController;
+    private WeaponController _weaponController;
 
     public Configuration Config => _config;
     public Transform PlayerSpawnPoint => _playerSpawnPoint;
@@ -26,6 +27,7 @@ public class MainController : MonoBehaviour
         //Controllers
         _inputController = new InputController(this);
         _playerController = new PlayerController(this);
+        _weaponController = new WeaponController(this);
     }
 
     private void Start()

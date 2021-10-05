@@ -30,3 +30,10 @@ MonoBehaviour:
   LaserAttackKey: 55
   LaserMagazineSize: 3
   LaserCooldown: 5
+  BulletSpeed: 20
+  LaserLifetime: 0.1
+  BigAsteroidSpeed: 2
+  SmallAsteroidSpeed: 3
+  UFOSpeed: 2
+  AsteroidSpawnTime: 0.4
+  UFOSpawnTime: 10

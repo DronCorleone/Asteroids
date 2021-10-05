@@ -30,4 +30,13 @@ public class Configuration : ScriptableObject
     [Header("Weapon")]
     public int LaserMagazineSize;
     public float LaserCooldown;
+    public float BulletSpeed;
+    public float LaserLifetime;
+
+    [Header("Enemies")]
+    public float BigAsteroidSpeed;
+    public float SmallAsteroidSpeed;
+    public float UFOSpeed;
+    public float AsteroidSpawnTime;
+    public float UFOSpawnTime;
 }
