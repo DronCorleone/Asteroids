@@ -1,21 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : BaseController, IExecute
 {
     private PlayerView _player;
-    private Transform _playerSpawnPoint;
 
     private float _moveSpeed;
     private float _rotateSpeed;
     private float _moveInput;
     private float _rotateInput;
 
+    private int _laserMagazine;
+    private float _laserCooldown;
+
     public PlayerController(MainController main) : base(main)
     {
         _moveSpeed = main.Config.PlayerMoveSpeed;
         _rotateSpeed = main.Config.PlayerRotateSpeed;
+        _laserMagazine = main.Config.LaserMagazineSize;
     }
 
 
@@ -27,6 +28,8 @@ public class PlayerController : BaseController, IExecute
 
         InputEvents.Current.OnMoveInput += SetMoveInput;
         InputEvents.Current.OnRotateInput += SetRotateInput;
+        InputEvents.Current.OnBulletAttackInput += BulletAttack;
+        InputEvents.Current.OnLaserAttackInput += LaserAttack;
     }
 
     public void Execute()
@@ -34,6 +37,8 @@ public class PlayerController : BaseController, IExecute
         //Moving
         _player.Transform.Translate(Vector3.up * _moveInput * _moveSpeed * Time.deltaTime);
         _player.Transform.Rotate(_player.Transform.forward, _rotateInput * _rotateSpeed * Time.deltaTime);
+        GameEvents.Current.PlayerSpeed(_moveInput * _moveSpeed);
+        GameEvents.Current.PlayerPosition(_player.Transform.position);
 
         //Check bounds
         if (_player.Transform.position.x > _main.Config.MaxX)
@@ -52,6 +57,31 @@ public class PlayerController : BaseController, IExecute
         {
             _player.Transform.position = new Vector3(_player.Transform.position.x, _main.Config.MaxY, _player.Transform.position.z);
         }
+
+        //Weapon
+        if (_laserMagazine == _main.Config.LaserMagazineSize)
+        {
+            _laserCooldown = 0.0f;
+        }
+        else
+        {
+            _laserCooldown += Time.deltaTime;
+
+            if (_laserCooldown >= _main.Config.LaserCooldown)
+            {
+                _laserCooldown = 0.0f;
+                _laserMagazine++;
+            }
+        }
+
+        if (_laserCooldown == 0.0f)
+        {
+            GameEvents.Current.LaserCooldown(_laserCooldown);
+        }
+        else
+        {
+            GameEvents.Current.LaserCooldown(_main.Config.LaserCooldown - _laserCooldown);
+        }
     }
 
 
@@ -62,5 +92,18 @@ public class PlayerController : BaseController, IExecute
     private void SetRotateInput(float value)
     {
         _rotateInput = value;
+    }
+
+    private void BulletAttack()
+    {
+        GameEvents.Current.BulletSpawn(_player.ProjectileSpawnPoint);
+    }
+    private void LaserAttack()
+    {
+        if (_laserMagazine > 0)
+        {
+            GameEvents.Current.LaserSpawn(_player.ProjectileSpawnPoint);
+            _laserMagazine--;
+        }
     }
 }

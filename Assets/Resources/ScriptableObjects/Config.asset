@@ -23,3 +23,10 @@ MonoBehaviour:
   EnemyMaxX: 12
   EnemyMinY: -8
   EnemyMaxY: 8
+  MoveForwardKey: 63
+  RotateRightKey: 62
+  RotateLeftKey: 61
+  BulletAttackKey: 1
+  LaserAttackKey: 55
+  LaserMagazineSize: 3
+  LaserCooldown: 5

@@ -27,7 +27,7 @@ public class InputController : BaseController, IExecute
     public void Execute()
     {
         //Move
-        if (_keyboard.upArrowKey.isPressed)
+        if (_keyboard[_main.Config.MoveForwardKey].isPressed)
         {
             _moveSpeed += Time.deltaTime * _acceleration;
 
@@ -48,17 +48,27 @@ public class InputController : BaseController, IExecute
         InputEvents.Current.MoveInput(_moveSpeed);
 
         //Rotate
-        if (_keyboard.rightArrowKey.isPressed)
+        if (_keyboard[_main.Config.RotateRightKey].isPressed)
         {
             InputEvents.Current.RotateInput(_rotateSpeedRight);
         }
-        else if (_keyboard.leftArrowKey.isPressed)
+        else if (_keyboard[_main.Config.RotateLeftKey].isPressed)
         {
             InputEvents.Current.RotateInput(_rotateSpeedLeft);
         }
         else
         {
             InputEvents.Current.RotateInput(0.0f);
+        }
+
+        //Attack
+        if (_keyboard[_main.Config.BulletAttackKey].wasPressedThisFrame)
+        {
+            InputEvents.Current.BulletAttackInput();
+        }
+        if (_keyboard[_main.Config.LaserAttackKey].wasPressedThisFrame)
+        {
+            InputEvents.Current.LaserAttackInput();
         }
     }
 }

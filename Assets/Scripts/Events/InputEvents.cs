@@ -4,6 +4,8 @@ using UnityEngine;
 public class InputEvents : MonoBehaviour
 {
     public static InputEvents Current;
+
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -21,5 +23,17 @@ public class InputEvents : MonoBehaviour
     public void RotateInput(float value)
     {
         OnRotateInput?.Invoke(value);
+    }
+
+    public event Action OnBulletAttackInput;
+    public void BulletAttackInput()
+    {
+        OnBulletAttackInput?.Invoke();
+    }
+
+    public event Action OnLaserAttackInput;
+    public void LaserAttackInput()
+    {
+        OnLaserAttackInput?.Invoke();
     }
 }

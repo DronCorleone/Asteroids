@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 [CreateAssetMenu]
@@ -18,4 +19,15 @@ public class Configuration : ScriptableObject
     public float EnemyMaxX;
     public float EnemyMinY;
     public float EnemyMaxY;
+
+    [Header("Controls")]
+    public Key MoveForwardKey;
+    public Key RotateRightKey;
+    public Key RotateLeftKey;
+    public Key BulletAttackKey;
+    public Key LaserAttackKey;
+
+    [Header("Weapon")]
+    public int LaserMagazineSize;
+    public float LaserCooldown;
 }
