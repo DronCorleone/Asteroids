@@ -9,7 +9,6 @@ public class GameEvents : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
         Current = this;
     }
 
@@ -25,6 +24,12 @@ public class GameEvents : MonoBehaviour
     public void PlayerPosition(Vector2 position)
     {
         OnPlayerPosition?.Invoke(position);
+    }
+
+    public event Action<Vector3> OnPlayerRotation;
+    public void PlayerRotation(Vector3 rotation)
+    {
+        OnPlayerRotation?.Invoke(rotation);
     }
     #endregion
 
@@ -57,6 +62,12 @@ public class GameEvents : MonoBehaviour
     public void LaserCooldown(float value)
     {
         OnLaserCooldown?.Invoke(value);
+    }
+
+    public event Action<int> OnLaserMagazine;
+    public void LaserMagazine(int value)
+    {
+        OnLaserMagazine?.Invoke(value);
     }
     #endregion
 

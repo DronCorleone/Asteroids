@@ -15,6 +15,7 @@ public class MainController : MonoBehaviour
     private WeaponController _weaponController;
     private EnemyController _enemyController;
     private ScoreController _scoreController;
+    private UIController _uiController;
 
     public Configuration Config => _config;
     public Transform PlayerSpawnPoint => _playerSpawnPoint;
@@ -24,11 +25,10 @@ public class MainController : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
-
         _config = Resources.Load<Configuration>("ScriptableObjects/Config");
 
         //Controllers
+        _uiController = new UIController(this);
         _inputController = new InputController(this);
         _playerController = new PlayerController(this);
         _weaponController = new WeaponController(this);

@@ -40,6 +40,7 @@ public class PlayerController : BaseController, IExecute
         _player.Transform.Rotate(_player.Transform.forward, _rotateInput * _rotateSpeed * Time.deltaTime);
         GameEvents.Current.PlayerSpeed(_moveInput * _moveSpeed);
         GameEvents.Current.PlayerPosition(_player.Transform.position);
+        GameEvents.Current.PlayerRotation(_player.Transform.rotation.eulerAngles);
 
         //Check bounds
         if (_player.Transform.position.x > _main.Config.MaxX)
@@ -74,6 +75,7 @@ public class PlayerController : BaseController, IExecute
                 _laserMagazine++;
             }
         }
+        GameEvents.Current.LaserMagazine(_laserMagazine);
 
         if (_laserCooldown == 0.0f)
         {
@@ -105,6 +107,7 @@ public class PlayerController : BaseController, IExecute
         {
             GameEvents.Current.LaserSpawn(_player.ProjectileSpawnPoint);
             _laserMagazine--;
+            GameEvents.Current.LaserMagazine(_laserMagazine);
         }
     }
 }

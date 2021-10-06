@@ -8,7 +8,6 @@ public class InputEvents : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
         Current = this;
     }
 

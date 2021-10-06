@@ -22,14 +22,30 @@ public class InGameUIView : BaseMenuView
     }
 
 
-    public void UpdateText(string score, string gps, string angle, string speed, string laserMagazine, string laserTimer)
+    
+    public void UpdateText(string text, TextInfoType type)
     {
-        _textScore.text = score;
-        _textPlayerGPS.text = gps;
-        _textPlayerAngle.text = angle;
-        _textPlayerSpeed.text = speed;
-        _textLaserMagazine.text = laserMagazine;
-        _textLaserTimer.text = laserTimer;
+        switch (type)
+        {
+            case TextInfoType.Score:
+                _textScore.text = text;
+                break;
+            case TextInfoType.GPS:
+                _textPlayerGPS.text = text;
+                break;
+            case TextInfoType.PlayerAngle:
+                _textPlayerAngle.text = text;
+                break;
+            case TextInfoType.PlayerSpeed:
+                _textPlayerSpeed.text = text;
+                break;
+            case TextInfoType.LaserMagazine:
+                _textLaserMagazine.text = text;
+                break;
+            case TextInfoType.LaserTimer:
+                _textLaserTimer.text = text;
+                break;
+        }
     }
 
     public override void Hide()

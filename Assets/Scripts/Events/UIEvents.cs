@@ -8,7 +8,6 @@ public class UIEvents : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
         Current = this;
     }
 
